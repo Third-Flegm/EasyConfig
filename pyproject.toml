@@ -39,7 +39,7 @@ easyconfig-docs = "easyconfig.docs:_install_docs_to_site_packages"
 include-package-data = true
 
 [tool.setuptools.package-data]
-easyconfig = ["../README.md", "../Syntax.md"]
+easyconfig = ["../README.md", "../Syntax.md", "../Quickstart.md"]
 
 [tool.setuptools.packages.find]
 include = ["easyconfig*"]

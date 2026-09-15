@@ -231,6 +231,26 @@ def test_install_docs_skips_existing_files_unless_force_is_set(tmp_path):
     assert "EasyConfig" in existing.read_text(encoding="utf-8")
 
 
+def test_install_quickstart_writes_file_and_skips_existing_file(tmp_path):
+    from easyconfig.docs import install_quickstart
+
+    target = tmp_path / "docs"
+    quickstart = install_quickstart(target)
+
+    assert quickstart == target / "QUICKSTART.md"
+    assert "python -m pip install easyconfig" in quickstart.read_text(encoding="utf-8")
+    assert install_quickstart(target) is None
+
+
+def test_docs_cli_repo_command(capsys, monkeypatch):
+    from easyconfig.docs import _install_docs_to_site_packages
+
+    monkeypatch.setattr("sys.argv", ["easyconfig-docs", "--repo"])
+
+    assert _install_docs_to_site_packages() == 0
+    assert "https://github.com/Third-Flegm/EasyConfig" in capsys.readouterr().out
+
+
 def test_require_raises_for_missing_value():
     with pytest.raises(ConfigError):
         Config().require("database.host")

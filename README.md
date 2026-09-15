@@ -136,6 +136,19 @@ easyconfig-docs
 
 The command places `README.md` and `Syntax.md` in the installed package's parent
 folder by default, which makes it easy to browse the docs alongside the library.
+Existing files are left alone unless `--force` is supplied. The same command also
+provides project helpers:
+
+```powershell
+easyconfig-docs --help
+easyconfig-docs --quickstart
+easyconfig-docs --repo
+easyconfig-docs --version
+```
+
+`--quickstart` writes a small `QUICKSTART.md` guide to the current directory.
+Add a directory after the command to write there instead, for example
+`easyconfig-docs --quickstart .\docs`.
 You can also call it from Python:
 
 ```python

@@ -287,4 +287,17 @@ from easyconfig import install_docs
 install_docs("./docs")
 ```
 
+The `easyconfig-docs` command also includes project helpers:
+
+```powershell
+easyconfig-docs --help
+easyconfig-docs --quickstart
+easyconfig-docs --repo
+easyconfig-docs --version
+```
+
+`--quickstart` creates `QUICKSTART.md` in the current directory. Pass a target
+directory after the option to choose another location. Existing files are
+skipped unless `--force` is used.
+
 This writes `README.md` and `Syntax.md` into the target directory.
