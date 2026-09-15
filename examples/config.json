@@ -1,0 +1,10 @@
+{
+  "app": {
+    "name": "my-service"
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432
+  },
+  "debug": false
+}

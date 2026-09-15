@@ -17,7 +17,7 @@ if config.get("app.name", MISSING) is MISSING:
     config.set("debug", False)
     config.set("database.host", "localhost")
     config.set("database.port", 5432)
-    config.save("config.json")
+    config.save()
 
 # Read values from config.json.
 print(f"Service: {config.require('app.name')}")

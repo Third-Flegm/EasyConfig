@@ -17,6 +17,10 @@ file cannot be read, saved, or when a required value is missing.
 config = Config.from_file("config.json")
 ```
 
+For a relative path, EasyConfig looks beside the Python file that called
+`from_file`. For example, if `app.py` is in `my_app/`, this creates
+`my_app/config.json`. Absolute paths are used exactly as provided.
+
 If the file does not exist, EasyConfig creates it with an empty object:
 
 ```json
@@ -104,7 +108,13 @@ already missing.
 
 ## Save changes
 
-Save to `config.json`:
+Save to the file that was loaded:
+
+```python
+config.save()
+```
+
+You can also choose a path explicitly:
 
 ```python
 config.save("config.json")
@@ -116,7 +126,9 @@ You can save to another JSON path too:
 config.save("backup/config.json")
 ```
 
-`save` creates missing folders and returns the saved `Path`.
+Relative save paths use the calling Python file, unless the config was loaded
+from a file and `save()` is called without a path; then it saves to the loaded
+file. `save` creates missing folders and returns the saved `Path`.
 The file is written atomically, so a stop during saving does not leave a
 partially written JSON file.
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import inspect
 import os
 import tempfile
 from collections.abc import Mapping, Iterator
@@ -55,7 +56,7 @@ class Config(Mapping[str, Any]):
         schema: Mapping[str, type | tuple[type, ...]] | None = None,
     ) -> "Config":
         """Load a JSON or TOML file, creating an empty file when it is missing."""
-        file_path = Path(path)
+        file_path = cls._path_from_caller(path)
         if file_path.suffix.lower() not in {".json", ".toml"}:
             raise ConfigError(f"{file_path}: configuration files must use .json or .toml")
 
@@ -113,9 +114,12 @@ class Config(Mapping[str, Any]):
         self._environment_keys = refreshed._environment_keys
         return self
 
-    def save(self, path: str | os.PathLike[str] = "config.json") -> Path:
+    def save(self, path: str | os.PathLike[str] | None = None) -> Path:
         """Atomically save the current configuration as formatted JSON."""
-        file_path = Path(path)
+        if path is None and self._path is not None:
+            file_path = self._path
+        else:
+            file_path = self._path_from_caller(path or "config.json")
         try:
             file_path.parent.mkdir(parents=True, exist_ok=True)
             content = json.dumps(self._base_data, indent=2, sort_keys=True) + "\n"
@@ -124,6 +128,23 @@ class Config(Mapping[str, Any]):
         except (OSError, TypeError) as exc:
             raise ConfigError(f"{file_path}: could not save configuration file") from exc
         return file_path
+
+    @staticmethod
+    def _path_from_caller(path: str | os.PathLike[str]) -> Path:
+        file_path = Path(path)
+        if file_path.is_absolute():
+            return file_path
+
+        frame = inspect.currentframe()
+        try:
+            caller = frame.f_back.f_back if frame and frame.f_back else None
+            caller_name = caller.f_code.co_filename if caller else ""
+        finally:
+            del frame
+
+        if not caller_name or caller_name.startswith("<"):
+            return file_path
+        return Path(caller_name).resolve().parent / file_path
 
     @staticmethod
     def _atomic_write(file_path: Path, content: str) -> None:

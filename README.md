@@ -50,7 +50,9 @@ config.save("config.json")
 ```
 
 If `config.json` does not exist yet, `Config.from_file` creates it with an
-empty configuration so you can start adding values with `set`.
+empty configuration so you can start adding values with `set`. Relative paths
+are created beside the Python file that called `from_file`, not beside the
+terminal's current working directory.
 
 Run the example from the project root with `python -m examples.basic`.
 

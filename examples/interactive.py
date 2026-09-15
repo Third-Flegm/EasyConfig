@@ -26,7 +26,7 @@ def set_value(config: Config) -> None:
         value = raw_value
 
     config.set(key, value)
-    config.save(CONFIG_FILE)
+    config.save()
     print("Saved.")
 
 
@@ -39,7 +39,7 @@ def main() -> None:
     if config.get("app.name", MISSING) is MISSING:
         config.set("app.name", "my-service")
         config.set("debug", False)
-        config.save(CONFIG_FILE)
+        config.save()
 
     while True:
         print("\nEasyConfig")

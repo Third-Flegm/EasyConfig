@@ -70,6 +70,21 @@ def test_missing_file_is_created_with_empty_configuration(tmp_path):
     assert len(config) == 0
 
 
+def test_relative_missing_file_is_created_next_to_calling_python_file(tmp_path):
+    caller_file = tmp_path / "app.py"
+    caller_file.write_text("", encoding="utf-8")
+    namespace = {}
+    code = compile(
+        "from easyconfig import Config\nconfig = Config.from_file('config.json')",
+        str(caller_file),
+        "exec",
+    )
+
+    exec(code, namespace)
+
+    assert (tmp_path / "config.json").exists()
+
+
 def test_configuration_can_be_saved_and_loaded(tmp_path):
     path = tmp_path / "config.json"
     config = Config({"app": {"name": "demo"}, "port": 8000})
