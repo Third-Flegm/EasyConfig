@@ -2,7 +2,8 @@ import json
 
 import pytest
 
-from easyconfig import Config, ConfigError
+from easyconfig import MISSING, Config, ConfigError
+from easyconfig import core
 
 
 def test_sources_merge_and_dotted_lookup():
@@ -26,11 +27,37 @@ def test_environment_overrides_and_parses_values(monkeypatch):
     assert config["database.port"] == 5432
 
 
+def test_environment_overrides_are_not_saved(tmp_path, monkeypatch):
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps({"debug": False, "name": "file"}), encoding="utf-8")
+    monkeypatch.setenv("APP_DEBUG", "true")
+    monkeypatch.setenv("APP_NAME", "runtime")
+
+    config = Config.from_file(path, env_prefix="APP_")
+    assert config["debug"] is True
+    assert config["name"] == "runtime"
+
+    config.save(path)
+
+    assert json.loads(path.read_text(encoding="utf-8")) == {
+        "debug": False,
+        "name": "file",
+    }
+
+
 def test_json_file_loading(tmp_path):
     path = tmp_path / "settings.json"
     path.write_text(json.dumps({"name": "demo"}), encoding="utf-8")
 
     assert Config.from_file(path)["name"] == "demo"
+
+
+def test_malformed_json_includes_filename(tmp_path):
+    path = tmp_path / "broken.json"
+    path.write_text('{"name": }', encoding="utf-8")
+
+    with pytest.raises(ConfigError, match="broken.json"):
+        Config.from_file(path)
 
 
 def test_missing_file_is_created_with_empty_configuration(tmp_path):
@@ -51,6 +78,90 @@ def test_configuration_can_be_saved_and_loaded(tmp_path):
 
     assert Config.from_file(path)["app.name"] == "updated-demo"
     assert Config.from_file(path)["port"] == 8000
+
+
+def test_missing_and_null_values_are_distinguishable():
+    config = Config({"empty": None})
+
+    assert config.get("missing", MISSING) is MISSING
+    assert config.get("empty", MISSING) is None
+    assert config["empty"] is None
+
+
+def test_schema_validates_types_and_names_setting(tmp_path):
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps({"database": {"port": "5432"}}), encoding="utf-8")
+
+    with pytest.raises(ConfigError, match="database.port.*config.json"):
+        Config.from_file(path, schema={"database.port": int})
+
+
+def test_toml_loading_and_nested_updates(tmp_path):
+    path = tmp_path / "config.toml"
+    path.write_text(
+        '[database]\nhost = "localhost"\nport = 5432\n', encoding="utf-8"
+    )
+
+    config = Config.from_file(path)
+    config.set("database.port", 5433)
+
+    assert config["database.port"] == 5433
+    assert config.to_dict() == {"database": {"host": "localhost", "port": 5433}}
+
+
+def test_delete_and_to_dict_do_not_share_nested_data():
+    config = Config({"database": {"host": "localhost", "port": 5432}})
+    values = config.to_dict()
+    values["database"]["port"] = 1
+
+    assert config["database.port"] == 5432
+    assert config.delete("database.port") is True
+    assert config.delete("database.port") is False
+
+
+def test_reload_reads_changes_from_file(tmp_path):
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps({"debug": False}), encoding="utf-8")
+    config = Config.from_file(path)
+    path.write_text(json.dumps({"debug": True}), encoding="utf-8")
+
+    assert config.reload() is config
+    assert config["debug"] is True
+
+
+def test_atomic_save_keeps_original_when_replace_fails(tmp_path, monkeypatch):
+    path = tmp_path / "config.json"
+    path.write_text('{"old": true}\n', encoding="utf-8")
+    config = Config.from_file(path)
+    config.set("new", True)
+
+    def fail_replace(source, destination):
+        raise OSError("simulated interruption")
+
+    monkeypatch.setattr(core.os, "replace", fail_replace)
+
+    with pytest.raises(ConfigError, match="config.json"):
+        config.save(path)
+
+    assert path.read_text(encoding="utf-8") == '{"old": true}\n'
+
+
+def test_environment_conversion(monkeypatch):
+    monkeypatch.setenv("EASYCONFIG_TEST_ENABLED", "false")
+    monkeypatch.setenv("EASYCONFIG_TEST_RATIO", "1.5")
+    monkeypatch.setenv("EASYCONFIG_TEST_COUNT", "3")
+    monkeypatch.setenv("EASYCONFIG_TEST_EMPTY", "null")
+    monkeypatch.setenv("EASYCONFIG_TEST_NAME", "demo")
+
+    config = Config(env_prefix="EASYCONFIG_TEST_")
+
+    assert config.to_dict() == {
+        "enabled": False,
+        "ratio": 1.5,
+        "count": 3,
+        "empty": None,
+        "name": "demo",
+    }
 
 
 def test_require_raises_for_missing_value():

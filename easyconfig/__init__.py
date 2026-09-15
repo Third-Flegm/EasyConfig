@@ -1,5 +1,5 @@
 """Simple configuration management for Python applications."""
 
-from .core import Config, ConfigError
+from .core import MISSING, Config, ConfigError
 
-__all__ = ["Config", "ConfigError"]
+__all__ = ["Config", "ConfigError", "MISSING"]
