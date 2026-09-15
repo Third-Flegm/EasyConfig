@@ -11,6 +11,11 @@ Install the package from PyPI when published:
 python -m pip install flegmcnf
 ```
 
+Else:
+```powershell
+python -m pip install git+https://github.com/Third-Flegm/FlegmCNF
+```
+
 For local development, install the current project in editable mode:
 
 ```powershell
