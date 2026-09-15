@@ -4,19 +4,33 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "easyconfig"
-version = "0.1.0"
+version = "0.2.0"
 description = "Simple, layered configuration management for Python applications."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "tomli>=2.0; python_version < '3.11'",
 ]
-license = {text = "MIT"}
+license = "MIT"
 authors = [{name = "EasyConfig contributors"}]
+keywords = ["configuration", "config", "settings", "json", "toml"]
 classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+build = ["build>=1.2", "twine>=5"]
 
 [tool.setuptools.packages.find]
 include = ["easyconfig*"]
