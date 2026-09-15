@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "FlegmCNF"
 version = "0.2.1"
 description = "Simple, layered configuration management for Python applications."
-readme = "README.md"
+readme = "docs/README.md"
 requires-python = ">=3.10"
 dependencies = [
     "tomli>=2.0; python_version < '3.11'",
@@ -36,10 +36,15 @@ build = ["build>=1.2", "twine>=5"]
 flegmcnf = "flegmcnf.docs:_install_docs_to_site_packages"
 
 [tool.setuptools]
+package-dir = {"" = "src"}
 include-package-data = true
 
 [tool.setuptools.package-data]
-flegmcnf = ["../README.md", "../Syntax.md", "../Quickstart.md"]
+flegmcnf = ["config.json"]
+
+[tool.setuptools.data-files]
+"flegmcnf-docs" = ["docs/README.md", "docs/Syntax.md", "docs/Quickstart.md"]
 
 [tool.setuptools.packages.find]
+where = ["src"]
 include = ["flegmcnf*"]

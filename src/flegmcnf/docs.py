@@ -2,13 +2,22 @@ from __future__ import annotations
 
 import argparse
 import importlib.metadata
+import sys
 from pathlib import Path
 from shutil import copy2
 
 
 DOC_FILES = ("README.md", "Syntax.md")
-REPOSITORY_URL = "https://github.com/Third-Flegm/EasyConfig"
-QUICKSTART_FILE = "QUICKSTART.md"
+REPOSITORY_URL = "https://github.com/Third-Flegm/EasyCoFlegmCNF"
+QUICKSTART_FILE = "docs/QUICKSTART.md"
+
+
+def _documentation_path(file_name: str) -> Path:
+    """Locate documentation in a source checkout or installed distribution."""
+    source_path = Path(__file__).resolve().parents[2] / "docs" / file_name
+    if source_path.exists():
+        return source_path
+    return Path(sys.prefix) / "flegmcnf-docs" / file_name
 
 
 def install_docs(target_dir: str | Path | None = None, *, force: bool = False) -> list[Path]:
@@ -18,7 +27,7 @@ def install_docs(target_dir: str | Path | None = None, *, force: bool = False) -
 
     copied: list[Path] = []
     for file_name in DOC_FILES:
-        source = Path(__file__).resolve().parent.parent / file_name
+        source = _documentation_path(file_name)
         destination = target / file_name
         if not source.exists():
             continue
@@ -42,7 +51,7 @@ def install_quickstart(target_dir: str | Path | None = None, *, force: bool = Fa
     if destination.exists() and not force:
         return None
     try:
-        source = Path(__file__).resolve().parent.parent / "Quickstart.md"
+        source = _documentation_path("docs/Quickstart.md")
         if not source.exists():
             return None
         copy2(source, destination)
