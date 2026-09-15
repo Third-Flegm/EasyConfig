@@ -1,0 +1,37 @@
+Metadata-Version: 2.4
+Name: easyconfig
+Version: 0.1.0
+Summary: Simple, layered configuration management for Python applications.
+Author: EasyConfig contributors
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+
+# EasyConfig
+
+EasyConfig provides small, predictable configuration management for Python applications.
+
+## Example
+
+```python
+from easyconfig import Config
+
+config = Config(
+    {"app": {"name": "demo"}, "debug": False},
+    env_prefix="APP_",
+)
+
+print(config.get("app.name"))
+print(config.require("debug"))
+```
+
+Environment variables override earlier sources. Double underscores represent nested keys:
+
+```text
+APP_DEBUG=true
+APP_DATABASE__HOST=db.example.com
+```
+
+JSON and TOML files can be loaded with `Config.from_file("settings.toml", env_prefix="APP_")`.
