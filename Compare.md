@@ -1,6 +1,6 @@
-# Normal Configuration vs EasyConfig
+# Normal Configuration vs FlegmConfig
 
-This page compares a common plain-Python approach with EasyConfig.
+This page compares a common plain-Python approach with FlegmConfig.
 
 ## 1. Read a JSON file
 
@@ -16,10 +16,10 @@ app_name = config["app_name"]
 port = config["database"]["port"]
 ```
 
-### EasyConfig
+### FlegmConfig
 
 ```python
-from easyconfig import Config
+from flegmconfig import Config
 
 config = Config.from_file("config.json")
 
@@ -27,7 +27,7 @@ app_name = config["app_name"]
 port = config["database.port"]
 ```
 
-EasyConfig uses dotted keys for nested values and creates the file if it does
+FlegmConfig uses dotted keys for nested values and creates the file if it does
 not exist yet.
 
 ## 2. Use a default value
@@ -39,7 +39,7 @@ debug = config.get("debug", False)
 port = config.get("database", {}).get("port", 5432)
 ```
 
-### EasyConfig
+### FlegmConfig
 
 ```python
 debug = config.get("debug", False)
@@ -58,7 +58,7 @@ with open("config.json", "w", encoding="utf-8") as file:
     json.dump(config, file, indent=2)
 ```
 
-### EasyConfig
+### FlegmConfig
 
 ```python
 config.set("debug", True)
@@ -66,7 +66,7 @@ config.set("database.port", 5433)
 config.save("config.json")
 ```
 
-EasyConfig handles JSON formatting and creates missing folders for the output
+FlegmConfig handles JSON formatting and creates missing folders for the output
 file.
 
 ## 4. Require an important setting
@@ -80,10 +80,10 @@ if "secret_key" not in config:
 secret_key = config["secret_key"]
 ```
 
-### EasyConfig
+### FlegmConfig
 
 ```python
-from easyconfig import ConfigError
+from flegmconfig import ConfigError
 
 try:
     secret_key = config.require("secret_key")
@@ -105,7 +105,7 @@ if "APP_DATABASE__HOST" in os.environ:
     config["database"]["host"] = os.environ["APP_DATABASE__HOST"]
 ```
 
-### EasyConfig
+### FlegmConfig
 
 ```python
 config = Config.from_file("config.json", env_prefix="APP_")
@@ -120,7 +120,7 @@ APP_DATABASE__HOST=db.example.com
 
 ## Summary
 
-| Task | Normal Python | EasyConfig |
+| Task | Normal Python | FlegmConfig |
 | --- | --- | --- |
 | Read JSON | `json.load(file)` | `Config.from_file("config.json")` |
 | Read nested value | `config["database"]["port"]` | `config["database.port"]` |

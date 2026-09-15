@@ -1,6 +1,6 @@
-# EasyConfig
+# FlegmConfig
 
-EasyConfig makes it easy to store application settings in a separate
+FlegmConfig makes it easy to store application settings in a separate
 `config.json` file.
 
 ## Installation
@@ -8,7 +8,7 @@ EasyConfig makes it easy to store application settings in a separate
 Install the package from PyPI when published:
 
 ```powershell
-python -m pip install easyconfig
+python -m pip install flegmconfig
 ```
 
 For local development, install the current project in editable mode:
@@ -18,7 +18,7 @@ python -m pip install -e .
 ```
 
 The [pyproject.example.toml](pyproject.example.toml) file shows the minimum
-metadata for a project that depends on EasyConfig.
+metadata for a project that depends on FlegmConfig.
 
 ## Quick start
 
@@ -38,7 +38,7 @@ Install the package, then create a `config.json` file:
 Load and use it in Python:
 
 ```python
-from easyconfig import Config
+from flegmconfig import Config
 
 config = Config.from_file("config.json")
 
@@ -67,7 +67,7 @@ For a menu-driven example, run `python -m examples.interactive`. It offers:
 The set and delete options save changes to the file. Values such as `true`,
 `42`, and `3.14` are read as JSON values; other input is stored as text.
 
-For the complete reference, see [Syntax.md](Syntax.md). To compare EasyConfig
+For the complete reference, see [Syntax.md](Syntax.md). To compare FlegmConfig
 with regular Python dictionaries and the `json` module, see [Compare.md](Compare.md).
 
 ## Optional environment overrides
@@ -92,10 +92,10 @@ Double underscores represent nested keys. JSON and TOML files are supported.
 
 ## Package user quick start
 
-If you install EasyConfig from PyPI or a local wheel, you can start with:
+If you install FlegmConfig from PyPI or a local wheel, you can start with:
 
 ```python
-from easyconfig import Config
+from flegmconfig import Config
 
 config = Config.from_file("config.json")
 config.setdefault("database.port", 5432)
@@ -131,7 +131,7 @@ After installing the package, you can copy the bundled documentation files into
 any directory with:
 
 ```powershell
-easyconfig-docs
+flegmconfig-docs
 ```
 
 The command places `README.md` and `Syntax.md` in the installed package's parent
@@ -140,19 +140,19 @@ Existing files are left alone unless `--force` is supplied. The same command als
 provides project helpers:
 
 ```powershell
-easyconfig-docs --help
-easyconfig-docs --quickstart
-easyconfig-docs --repo
-easyconfig-docs --version
+flegmconfig-docs --help
+flegmconfig-docs --quickstart
+flegmconfig-docs --repo
+flegmconfig-docs --version
 ```
 
 `--quickstart` writes a small `QUICKSTART.md` guide to the current directory.
 Add a directory after the command to write there instead, for example
-`easyconfig-docs --quickstart .\docs`.
+`flegmconfig-docs --quickstart .\docs`.
 You can also call it from Python:
 
 ```python
-from easyconfig import install_docs
+from flegmconfig import install_docs
 
 install_docs("./docs")
 ```
@@ -160,6 +160,6 @@ install_docs("./docs")
 ## TOML support
 
 On Python 3.11 and newer, TOML reading uses the standard-library `tomllib` and
-needs no extra package. On Python 3.10, EasyConfig installs and uses the
-backport `tomli`. EasyConfig reads TOML but `save()` always writes JSON, so no
+needs no extra package. On Python 3.10, FlegmConfig installs and uses the
+backport `tomli`. FlegmConfig reads TOML but `save()` always writes JSON, so no
 `tomli-w` dependency is needed.

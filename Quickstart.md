@@ -1,9 +1,9 @@
-# EasyConfig quick start
+# FlegmConfig quick start
 
-Install EasyConfig:
+Install FlegmConfig:
 
 ```powershell
-python -m pip install easyconfig
+python -m pip install flegmconfig
 ```
 
 Create a `config.json` file:
@@ -22,7 +22,7 @@ Create a `config.json` file:
 Load and use it in Python:
 
 ```python
-from easyconfig import Config
+from flegmconfig import Config
 
 config = Config.from_file("config.json")
 print(config["database.host"])
@@ -33,9 +33,9 @@ config.save()
 Useful commands:
 
 ```powershell
-easyconfig-docs --help
-easyconfig-docs --repo
-easyconfig-docs --quickstart
+flegmconfig-docs --help
+flegmconfig-docs --repo
+flegmconfig-docs --quickstart
 ```
 
 See `README.md` and `Syntax.md` for the complete documentation.

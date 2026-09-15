@@ -1,11 +1,11 @@
-# EasyConfig Syntax
+# FlegmConfig Syntax
 
-This page shows the complete public syntax of EasyConfig.
+This page shows the complete public syntax of FlegmConfig.
 
 ## Import
 
 ```python
-from easyconfig import MISSING, Config, ConfigError
+from flegmconfig import MISSING, Config, ConfigError
 ```
 
 `Config` manages your settings. `ConfigError` is raised when a configuration
@@ -17,11 +17,11 @@ file cannot be read, saved, or when a required value is missing.
 config = Config.from_file("config.json")
 ```
 
-For a relative path, EasyConfig looks beside the Python file that called
+For a relative path, FlegmConfig looks beside the Python file that called
 `from_file`. For example, if `app.py` is in `my_app/`, this creates
 `my_app/config.json`. Absolute paths are used exactly as provided.
 
-If the file does not exist, EasyConfig creates it with an empty object:
+If the file does not exist, FlegmConfig creates it with an empty object:
 
 ```json
 {}
@@ -83,7 +83,7 @@ Use `require` when your program cannot work without a setting:
 secret_key = config.require("secret_key")
 ```
 
-If the value is missing or `null`, EasyConfig raises `ConfigError`.
+If the value is missing or `null`, FlegmConfig raises `ConfigError`.
 
 ## Change a value
 
@@ -237,7 +237,7 @@ toml_config = Config.from_file("config.toml")
 `save` always writes JSON, even when the configuration was loaded from TOML.
 Python 3.11+ uses the standard-library `tomllib`. Python 3.10 uses the
 automatically installed `tomli` backport. No `tomli-w` package is required
-because EasyConfig writes JSON rather than TOML.
+because FlegmConfig writes JSON rather than TOML.
 
 ## Interactive example
 
@@ -274,26 +274,26 @@ except ConfigError as error:
 
 ## Install the docs bundle
 
-If you install EasyConfig from a package, you can copy the bundled documentation
+If you install FlegmConfig from a package, you can copy the bundled documentation
 files into a folder with either the CLI command or Python:
 
 ```powershell
-easyconfig-docs
+flegmconfig-docs
 ```
 
 ```python
-from easyconfig import install_docs
+from flegmconfig import install_docs
 
 install_docs("./docs")
 ```
 
-The `easyconfig-docs` command also includes project helpers:
+The `flegmconfig-docs` command also includes project helpers:
 
 ```powershell
-easyconfig-docs --help
-easyconfig-docs --quickstart
-easyconfig-docs --repo
-easyconfig-docs --version
+flegmconfig-docs --help
+flegmconfig-docs --quickstart
+flegmconfig-docs --repo
+flegmconfig-docs --version
 ```
 
 `--quickstart` creates `QUICKSTART.md` in the current directory. Pass a target

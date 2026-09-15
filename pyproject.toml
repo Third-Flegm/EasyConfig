@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "easyconfig"
+name = "flegmconfig"
 version = "0.2.2"
 description = "Simple, layered configuration management for Python applications."
 readme = "README.md"
@@ -12,7 +12,7 @@ dependencies = [
     "tomli>=2.0; python_version < '3.11'",
 ]
 license = "MIT"
-authors = [{name = "EasyConfig contributors"}]
+authors = [{name = "ThatFlegm"}]
 keywords = ["configuration", "config", "settings", "json", "toml"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -33,13 +33,13 @@ test = ["pytest>=8"]
 build = ["build>=1.2", "twine>=5"]
 
 [project.scripts]
-easyconfig-docs = "easyconfig.docs:_install_docs_to_site_packages"
+flegmconfig-docs = "flegmconfig.docs:_install_docs_to_site_packages"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.package-data]
-easyconfig = ["../README.md", "../Syntax.md", "../Quickstart.md"]
+flegmconfig = ["../README.md", "../Syntax.md", "../Quickstart.md"]
 
 [tool.setuptools.packages.find]
-include = ["easyconfig*"]
+include = ["flegmconfig*"]
