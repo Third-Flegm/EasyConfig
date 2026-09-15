@@ -90,11 +90,59 @@ APP_DATABASE__HOST=db.example.com
 
 Double underscores represent nested keys. JSON and TOML files are supported.
 
+## Package user quick start
+
+If you install EasyConfig from PyPI or a local wheel, you can start with:
+
+```python
+from easyconfig import Config
+
+config = Config.from_file("config.json")
+config.setdefault("database.port", 5432)
+config.update({"debug": True})
+```
+
+The library keeps nested settings easy to read with dotted keys like
+`database.port`, while still supporting full JSON/TOML loading.
+
 ## Additional API
 
 The complete API is documented in [Syntax.md](Syntax.md). It includes
-`delete`, `reload`, `to_dict`, type schemas, and the `MISSING` sentinel for
-distinguishing an absent setting from a setting whose value is `null`.
+`delete`, `reload`, `to_dict`, type schemas, `update`, `setdefault`, and the
+`MISSING` sentinel for distinguishing an absent setting from a setting whose
+value is `null`.
+
+## Merge and defaults
+
+You can merge mappings and set defaults without losing nested values:
+
+```python
+config = Config({"database": {"host": "localhost", "port": 5432}})
+config.update({"database": {"port": 5433}, "debug": True})
+config.setdefault("database.user", "app")
+```
+
+`update` accepts dotted keys and nested dictionaries. `setdefault` only sets a
+value when the key is missing.
+
+## Install the bundled docs
+
+After installing the package, you can copy the bundled documentation files into
+any directory with:
+
+```powershell
+easyconfig-docs
+```
+
+The command places `README.md` and `Syntax.md` in the installed package's parent
+folder by default, which makes it easy to browse the docs alongside the library.
+You can also call it from Python:
+
+```python
+from easyconfig import install_docs
+
+install_docs("./docs")
+```
 
 ## TOML support
 

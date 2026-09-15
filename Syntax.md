@@ -97,6 +97,24 @@ config.set("app.name", "my-service")
 
 Nested objects are created automatically when needed.
 
+## Update and set defaults
+
+Use `update` to merge nested dictionaries or dotted keys into the config:
+
+```python
+config.update({"database": {"port": 5433}, "debug": True})
+config.update({"database.host": "db.example.com"})
+```
+
+Use `setdefault` to only set a value when it is missing:
+
+```python
+config.setdefault("database.port", 5432)
+config.setdefault("database.host", "localhost")
+```
+
+The `setdefault` call returns the existing value if it already exists.
+
 ## Delete a value
 
 ```python
@@ -253,3 +271,20 @@ try:
 except ConfigError as error:
     print(f"Configuration problem: {error}")
 ```
+
+## Install the docs bundle
+
+If you install EasyConfig from a package, you can copy the bundled documentation
+files into a folder with either the CLI command or Python:
+
+```powershell
+easyconfig-docs
+```
+
+```python
+from easyconfig import install_docs
+
+install_docs("./docs")
+```
+
+This writes `README.md` and `Syntax.md` into the target directory.

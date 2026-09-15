@@ -179,6 +179,41 @@ def test_environment_conversion(monkeypatch):
     }
 
 
+def test_update_merges_nested_values_and_replaces_existing_keys():
+    config = Config({"database": {"host": "localhost", "port": 5432}, "debug": False})
+
+    config.update({"database": {"port": 5433}, "name": "demo"})
+    config.update({"debug": True, "database.host": "db.example.com"})
+
+    assert config.to_dict() == {
+        "database": {"host": "db.example.com", "port": 5433},
+        "debug": True,
+        "name": "demo",
+    }
+
+
+def test_setdefault_and_contains_work_with_dotted_keys():
+    config = Config({"database": {"host": "localhost"}})
+
+    assert config.setdefault("database.port", 5432) == 5432
+    assert config.setdefault("database.host", "ignored") == "localhost"
+    assert "database.port" in config
+    assert "database.missing" not in config
+
+
+def test_install_docs_copies_readme_and_syntax_to_target_directory(tmp_path):
+    from easyconfig.docs import install_docs
+
+    target = tmp_path / "copied-docs"
+    copied = install_docs(target)
+
+    assert copied == [target / "README.md", target / "Syntax.md"]
+    assert (target / "README.md").exists()
+    assert (target / "Syntax.md").exists()
+    assert "EasyConfig" in (target / "README.md").read_text(encoding="utf-8")
+    assert "Environment overrides" in (target / "Syntax.md").read_text(encoding="utf-8")
+
+
 def test_require_raises_for_missing_value():
     with pytest.raises(ConfigError):
         Config().require("database.host")

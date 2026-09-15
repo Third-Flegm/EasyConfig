@@ -32,5 +32,14 @@ classifiers = [
 test = ["pytest>=8"]
 build = ["build>=1.2", "twine>=5"]
 
+[project.scripts]
+easyconfig-docs = "easyconfig.docs:_install_docs_to_site_packages"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+easyconfig = ["../README.md", "../Syntax.md"]
+
 [tool.setuptools.packages.find]
 include = ["easyconfig*"]
