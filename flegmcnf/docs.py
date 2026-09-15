@@ -54,8 +54,8 @@ def install_quickstart(target_dir: str | Path | None = None, *, force: bool = Fa
 def _install_docs_to_site_packages() -> int:
     """CLI entry point for documentation and project helper commands."""
     parser = argparse.ArgumentParser(
-        prog="flegmconfig",
-        description="Install FlegmConfig documentation and show project information.",
+        prog="flegmcnf",
+        description="Install FlegmCNF documentation and show project information.",
         epilog="With no action, README.md and Syntax.md are copied to the target directory.",
     )
     parser.add_argument("target", nargs="?", default=".", help="Directory to receive the docs files.")
@@ -68,13 +68,13 @@ def _install_docs_to_site_packages() -> int:
     actions.add_argument(
         "--repo",
         action="store_true",
-        help="Print the FlegmConfig GitHub repository URL.",
+        help="Print the FlegmCNF GitHub repository URL.",
     )
     actions.add_argument(
         "--version",
         action="version",
-        version=f"flegmconfig {importlib.metadata.version('flegmconfig')}",
-        help="Show the installed FlegmConfig version.",
+        version=f"flegmcnf {importlib.metadata.version('FlegmCNF')}",
+        help="Show the installed FlegmCNF version.",
     )
     parser.add_argument(
         "--force",

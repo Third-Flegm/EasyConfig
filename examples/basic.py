@@ -1,4 +1,4 @@
-"""Basic FlegmConfig usage example.
+"""Basic FlegmCNF usage example.
 
 Run from the project root:
     python -m examples.basic
@@ -7,7 +7,7 @@ Try an override:
     APP_DEBUG=true APP_DATABASE__HOST=db.example.com python -m examples.basic
 """
 
-from flegmconfig import MISSING, Config
+from flegmcnf import MISSING, Config
 
 
 config = Config.from_file("config.json", env_prefix="APP_")

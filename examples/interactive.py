@@ -6,7 +6,7 @@ Run from the project root:
 
 import json
 
-from easyconfig import MISSING, Config, ConfigError
+from flegmcnf import MISSING, Config, ConfigError
 
 
 CONFIG_FILE = "config.json"

@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from flegmconfig import MISSING, Config, ConfigError
-from flegmconfig import core
+from flegmcnf import MISSING, Config, ConfigError
+from flegmcnf import core
 
 
 def test_sources_merge_and_dotted_lookup():
@@ -75,7 +75,7 @@ def test_relative_missing_file_is_created_next_to_calling_python_file(tmp_path):
     caller_file.write_text("", encoding="utf-8")
     namespace = {}
     code = compile(
-        "from flegmconfig import Config\nconfig = Config.from_file('config.json')",
+        "from flegmcnf import Config\nconfig = Config.from_file('config.json')",
         str(caller_file),
         "exec",
     )
@@ -202,7 +202,7 @@ def test_setdefault_and_contains_work_with_dotted_keys():
 
 
 def test_install_docs_copies_readme_and_syntax_to_target_directory(tmp_path):
-    from flegmconfig.docs import install_docs
+    from flegmcnf.docs import install_docs
 
     target = tmp_path / "copied-docs"
     copied = install_docs(target)
@@ -210,12 +210,12 @@ def test_install_docs_copies_readme_and_syntax_to_target_directory(tmp_path):
     assert copied == [target / "README.md", target / "Syntax.md"]
     assert (target / "README.md").exists()
     assert (target / "Syntax.md").exists()
-    assert "FlegmConfig" in (target / "README.md").read_text(encoding="utf-8")
+    assert "FlegmCNF" in (target / "README.md").read_text(encoding="utf-8")
     assert "Environment overrides" in (target / "Syntax.md").read_text(encoding="utf-8")
 
 
 def test_install_docs_skips_existing_files_unless_force_is_set(tmp_path):
-    from flegmconfig.docs import install_docs
+    from flegmcnf.docs import install_docs
 
     target = tmp_path / "docs"
     target.mkdir()
@@ -228,24 +228,24 @@ def test_install_docs_skips_existing_files_unless_force_is_set(tmp_path):
 
     forced = install_docs(target, force=True)
     assert forced == [target / "README.md", target / "Syntax.md"]
-    assert "FlegmConfig" in existing.read_text(encoding="utf-8")
+    assert "FlegmCNF" in existing.read_text(encoding="utf-8")
 
 
 def test_install_quickstart_writes_file_and_skips_existing_file(tmp_path):
-    from flegmconfig.docs import install_quickstart
+    from flegmcnf.docs import install_quickstart
 
     target = tmp_path / "docs"
     quickstart = install_quickstart(target)
 
     assert quickstart == target / "QUICKSTART.md"
-    assert "python -m pip install flegmconfig" in quickstart.read_text(encoding="utf-8")
+    assert "python -m pip install flegmcnf" in quickstart.read_text(encoding="utf-8")
     assert install_quickstart(target) is None
 
 
 def test_docs_cli_repo_command(capsys, monkeypatch):
-    from flegmconfig.docs import _install_docs_to_site_packages
+    from flegmcnf.docs import _install_docs_to_site_packages
 
-    monkeypatch.setattr("sys.argv", ["flegmconfig-docs", "--repo"])
+    monkeypatch.setattr("sys.argv", ["flegmcnf", "--repo"])
 
     assert _install_docs_to_site_packages() == 0
     assert "https://github.com/Third-Flegm/EasyConfig" in capsys.readouterr().out

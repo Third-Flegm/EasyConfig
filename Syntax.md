@@ -1,11 +1,11 @@
-# FlegmConfig Syntax
+# FlegmCNF Syntax
 
-This page shows the complete public syntax of FlegmConfig.
+This page shows the complete public syntax of FlegmCNF.
 
 ## Import
 
 ```python
-from flegmconfig import MISSING, Config, ConfigError
+from flegmcnf import MISSING, Config, ConfigError
 ```
 
 `Config` manages your settings. `ConfigError` is raised when a configuration
@@ -17,11 +17,11 @@ file cannot be read, saved, or when a required value is missing.
 config = Config.from_file("config.json")
 ```
 
-For a relative path, FlegmConfig looks beside the Python file that called
+For a relative path, FlegmCNF looks beside the Python file that called
 `from_file`. For example, if `app.py` is in `my_app/`, this creates
 `my_app/config.json`. Absolute paths are used exactly as provided.
 
-If the file does not exist, FlegmConfig creates it with an empty object:
+If the file does not exist, FlegmCNF creates it with an empty object:
 
 ```json
 {}
@@ -83,7 +83,7 @@ Use `require` when your program cannot work without a setting:
 secret_key = config.require("secret_key")
 ```
 
-If the value is missing or `null`, FlegmConfig raises `ConfigError`.
+If the value is missing or `null`, FlegmCNF raises `ConfigError`.
 
 ## Change a value
 
@@ -237,7 +237,7 @@ toml_config = Config.from_file("config.toml")
 `save` always writes JSON, even when the configuration was loaded from TOML.
 Python 3.11+ uses the standard-library `tomllib`. Python 3.10 uses the
 automatically installed `tomli` backport. No `tomli-w` package is required
-because FlegmConfig writes JSON rather than TOML.
+because FlegmCNF writes JSON rather than TOML.
 
 ## Interactive example
 
@@ -274,26 +274,26 @@ except ConfigError as error:
 
 ## Install the docs bundle
 
-If you install FlegmConfig from a package, you can copy the bundled documentation
+If you install FlegmCNF from a package, you can copy the bundled documentation
 files into a folder with either the CLI command or Python:
 
 ```powershell
-flegmconfig-docs
+flegmcnf
 ```
 
 ```python
-from flegmconfig import install_docs
+from flegmcnf import install_docs
 
 install_docs("./docs")
 ```
 
-The `flegmconfig-docs` command also includes project helpers:
+The `flegmcnf` command also includes project helpers:
 
 ```powershell
-flegmconfig-docs --help
-flegmconfig-docs --quickstart
-flegmconfig-docs --repo
-flegmconfig-docs --version
+flegmcnf --help
+flegmcnf --quickstart
+flegmcnf --repo
+flegmcnf --version
 ```
 
 `--quickstart` creates `QUICKSTART.md` in the current directory. Pass a target

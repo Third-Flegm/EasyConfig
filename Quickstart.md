@@ -1,9 +1,9 @@
-# FlegmConfig quick start
+# FlegmCNF quick start
 
-Install FlegmConfig:
+Install FlegmCNF:
 
 ```powershell
-python -m pip install flegmconfig
+python -m pip install flegmcnf
 ```
 
 Create a `config.json` file:
@@ -22,7 +22,7 @@ Create a `config.json` file:
 Load and use it in Python:
 
 ```python
-from flegmconfig import Config
+from flegmcnf import Config
 
 config = Config.from_file("config.json")
 print(config["database.host"])
@@ -33,9 +33,9 @@ config.save()
 Useful commands:
 
 ```powershell
-flegmconfig-docs --help
-flegmconfig-docs --repo
-flegmconfig-docs --quickstart
+flegmcnf --help
+flegmcnf --repo
+flegmcnf --quickstart
 ```
 
 See `README.md` and `Syntax.md` for the complete documentation.
