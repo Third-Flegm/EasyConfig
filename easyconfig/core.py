@@ -137,14 +137,16 @@ class Config(Mapping[str, Any]):
 
         frame = inspect.currentframe()
         try:
-            caller = frame.f_back.f_back if frame and frame.f_back else None
-            caller_name = caller.f_code.co_filename if caller else ""
+            caller = frame
+            while caller is not None:
+                caller_name = caller.f_code.co_filename
+                if caller_name and not caller_name.startswith("<") and caller_name != __file__:
+                    return Path(caller_name).resolve().parent / file_path
+                caller = caller.f_back
         finally:
             del frame
 
-        if not caller_name or caller_name.startswith("<"):
-            return file_path
-        return Path(caller_name).resolve().parent / file_path
+        return file_path
 
     @staticmethod
     def _atomic_write(file_path: Path, content: str) -> None:
