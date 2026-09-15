@@ -11,7 +11,7 @@ Install the package from PyPI when published:
 python -m pip install flegmcnf
 ```
 
-Else:
+Else if unpublished:
 ```powershell
 python -m pip install git+https://github.com/Third-Flegm/FlegmCNF
 ```
