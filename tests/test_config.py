@@ -214,6 +214,23 @@ def test_install_docs_copies_readme_and_syntax_to_target_directory(tmp_path):
     assert "Environment overrides" in (target / "Syntax.md").read_text(encoding="utf-8")
 
 
+def test_install_docs_skips_existing_files_unless_force_is_set(tmp_path):
+    from easyconfig.docs import install_docs
+
+    target = tmp_path / "docs"
+    target.mkdir()
+    existing = target / "README.md"
+    existing.write_text("old", encoding="utf-8")
+    (target / "Syntax.md").write_text("old", encoding="utf-8")
+
+    assert install_docs(target) == []
+    assert existing.read_text(encoding="utf-8") == "old"
+
+    forced = install_docs(target, force=True)
+    assert forced == [target / "README.md", target / "Syntax.md"]
+    assert "EasyConfig" in existing.read_text(encoding="utf-8")
+
+
 def test_require_raises_for_missing_value():
     with pytest.raises(ConfigError):
         Config().require("database.host")
