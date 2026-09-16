@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "FlegmCNF"
-version = "0.2.1"
+version = "0.2.5"
 description = "Simple, layered configuration management for Python applications."
 readme = "docs/README.md"
 requires-python = ">=3.10"
