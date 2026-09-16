@@ -8,8 +8,8 @@ from shutil import copy2
 
 
 DOC_FILES = ("README.md", "Syntax.md")
-REPOSITORY_URL = "https://github.com/Third-Flegm/EasyCoFlegmCNF"
-QUICKSTART_FILE = "docs/QUICKSTART.md"
+REPOSITORY_URL = "https://github.com/Third-Flegm/FlegmCNF"
+QUICKSTART_FILE = "QUICKSTART.md"
 
 
 def _documentation_path(file_name: str) -> Path:
@@ -51,7 +51,7 @@ def install_quickstart(target_dir: str | Path | None = None, *, force: bool = Fa
     if destination.exists() and not force:
         return None
     try:
-        source = _documentation_path("docs/Quickstart.md")
+        source = _documentation_path("Quickstart.md")
         if not source.exists():
             return None
         copy2(source, destination)

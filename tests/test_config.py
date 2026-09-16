@@ -248,7 +248,7 @@ def test_docs_cli_repo_command(capsys, monkeypatch):
     monkeypatch.setattr("sys.argv", ["flegmcnf", "--repo"])
 
     assert _install_docs_to_site_packages() == 0
-    assert "https://github.com/Third-Flegm/EasyConfig" in capsys.readouterr().out
+    assert "https://github.com/Third-Flegm/FlegmCNF" in capsys.readouterr().out
 
 
 def test_require_raises_for_missing_value():
